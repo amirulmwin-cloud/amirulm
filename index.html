@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SpeedTest Pro</title><link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="shell">
+<header><div class="logo">SPEED<span>TEST</span><b> PRO</b></div><div id="netStatus">READY</div></header>
+<main>
+<section class="top">
+  <div class="serverRow">Server <select id="server">
+    <option value="https://speed.cloudflare.com">Cloudflare Global</option>
+    <option value="https://speed.cloudflare.com">Cloudflare Singapore / Asia</option>
+    <option value="https://speed.cloudflare.com">Cloudflare Indonesia route*</option>
+  </select></div>
+  <div class="gaugeWrap">
+    <div class="gauge" id="gauge"><div class="ticks"></div><div class="needle"></div><div class="hub"></div>
+      <div class="readout"><strong id="mainSpeed">0.0</strong><small>Mbps</small><em id="mode">READY</em></div>
+    </div>
+  </div>
+  <div class="controls"><button id="start">GO</button><button id="stop" class="stop hidden">STOP</button></div>
+  <p class="hint">Download → Upload → Ping/Jitter</p>
+</section>
+
+<section class="metrics">
+ <article><label>DOWNLOAD</label><strong id="down">—</strong><span>Mbps</span></article>
+ <article><label>UPLOAD</label><strong id="up">—</strong><span>Mbps</span></article>
+ <article><label>PING</label><strong id="ping">—</strong><span>ms</span></article>
+ <article><label>JITTER</label><strong id="jitter">—</strong><span>ms</span></article>
+</section>
+
+<section class="details">
+ <div><label>IP ADDRESS</label><strong id="ip">Checking…</strong></div>
+ <div><label>CONNECTION</label><strong id="conn">—</strong></div>
+ <div><label>SERVER</label><strong id="srv">Cloudflare</strong></div>
+ <div><label>RESULT</label><strong id="result">No test yet</strong></div>
+</section>
+
+<section class="history">
+ <div class="historyHead"><h2>Test History</h2><button id="clear">Clear</button></div>
+ <div id="historyList"><p class="empty">Belum ada hasil.</p></div>
+</section>
+</main>
+<footer>SpeedTest Pro • Browser-based test • Hasil dipengaruhi Wi‑Fi, perangkat, VPN, ISP, dan kondisi jaringan.</footer>
+</div>
+<script src="script.js"></script>
+</body></html>

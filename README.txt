@@ -28,3 +28,5 @@ Fitur:
 
 CATATAN SERVER:
 Pilihan server pada UI adalah label pilihan. Endpoint pengujian saat ini menggunakan Cloudflare Speed Test publik. Jika ingin server Indonesia yang benar-benar dedicated dan dapat dipilih berdasarkan lokasi, deploy backend LibreSpeed di server/VPS Indonesia lalu ubah endpoint pada script.js.
+
+UPDATE: Gauge sekarang menggunakan animasi jarum smooth/easing dan efek glow bergerak saat nilai speed berubah.

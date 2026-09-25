@@ -5,7 +5,22 @@ const upUrl="https://speed.cloudflare.com/__up";
 function conn(){const c=navigator.connection||navigator.mozConnection||navigator.webkitConnection;return c?(c.effectiveType||"online")+" "+(c.downlink?c.downlink+"Mbps":""):"online"}
 $("conn").textContent=conn(); $("ip").textContent="Checking…";
 fetch("https://api.ipify.org?format=json").then(r=>r.json()).then(x=>$("ip").textContent=x.ip).catch(()=>$("ip").textContent="Unavailable");
-function needle(v){let deg=-110+Math.min(220,Math.max(0,v/100*220));$("gauge").querySelector(".needle").style.transform=`rotate(${deg}deg)`}
+let gaugeTarget=0,gaugeCurrent=0,gaugeFrame=null;
+function animateGauge(v){
+  gaugeTarget=Math.min(1000,Math.max(0,Number(v)||0));
+  cancelAnimationFrame(gaugeFrame);
+  const step=()=>{
+    const diff=gaugeTarget-gaugeCurrent;
+    gaugeCurrent += diff*0.085;
+    if(Math.abs(diff)<0.08) gaugeCurrent=gaugeTarget;
+    const deg=-110+Math.min(220,(gaugeCurrent/100)*220);
+    $("gauge").querySelector(".needle").style.transform=`rotate(${deg}deg)`;
+    $("mainSpeed").textContent=gaugeCurrent.toFixed(1);
+    if(Math.abs(gaugeTarget-gaugeCurrent)>0.08) gaugeFrame=requestAnimationFrame(step);
+  };
+  gaugeFrame=requestAnimationFrame(step);
+}
+function needle(v){animateGauge(v)}
 function save(d){history.unshift({time:new Date().toLocaleString("id-ID"),...d});history=history.slice(0,8);localStorage.setItem("speedtest_history",JSON.stringify(history));render()}
 function render(){const box=$("historyList");if(!history.length){box.innerHTML='<p class="empty">Belum ada hasil.</p>';return}box.innerHTML=history.map(x=>`<div class="historyRow"><span>${x.time}</span><span>↓ <b>${x.dl}</b> Mbps</span><span>↑ <b>${x.ul}</b> Mbps</span><span>Ping ${x.ping} ms</span><span>Jitter ${x.jit} ms</span></div>`).join("")}
 async function ping(){let a=[];for(let i=0;i<6;i++){let t=performance.now();try{await fetch("https://speed.cloudflare.com/__down?bytes=0&x="+Math.random(),{cache:"no-store"});a.push(performance.now()-t)}catch{}}let avg=a.reduce((x,y)=>x+y,0)/(a.length||1),jit=a.slice(1).reduce((x,y,i)=>x+Math.abs(y-a[i]),0)/(Math.max(1,a.length-1));return [avg,jit]}
